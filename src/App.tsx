@@ -6,12 +6,12 @@ import type { Interval } from "../types/Interval";
 import BudgetPage from "../pages/BudgetPage";
 
 function App() {
-  const [startingBudget, setStartingBudget] = useState<number | null>(null);
+  const [totalBudget, setTotalBudget] = useState<number | null>(null);
   const [interval, setInterval] = useState<Interval>("monthly");
 
-  const handleSetupSubmit = (budget: number, selectedInterval: Interval) => {
-    setStartingBudget(budget);
-    setInterval(selectedInterval);
+  const handleSetInitialBudget = (budget: number, interval: Interval) => {
+    setTotalBudget(budget);
+    setInterval(interval);
   };
 
   return (
@@ -19,12 +19,12 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<LandingPage onSubmit={handleSetupSubmit} />}
+          element={<LandingPage onSubmit={handleSetInitialBudget} />}
         />
         <Route
           path="/budget"
           element={
-            <BudgetPage startingBudget={startingBudget} interval={interval} />
+            <BudgetPage startingBudget={totalBudget} interval={interval} />
           } // You can pass props like `startingBudget` here later
         />
       </Routes>

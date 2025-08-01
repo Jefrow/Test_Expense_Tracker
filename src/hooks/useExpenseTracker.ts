@@ -18,18 +18,15 @@ export const useExpenseTracker = (
     "Other",
   ];
 
-  const initialBudgets: Budget[] = startingBudget
-    ? defaultCategories.map((category) => ({
-        category,
-        limit: Math.floor(startingBudget / defaultCategories.length),
-      }))
-    : defaultCategories.map((category) => ({
-        category,
-        limit: 0,
-      }));
+  const [budgets, setBudgets] = useState<Budget[]>(
+    defaultCategories.map((category) => ({
+      category,
+      limit: 0,
+    }))
+  );
 
   const [expenses, setExpenses] = useState<Expense[]>([]);
-  const [budgets, setBudgets] = useState<Budget[]>(initialBudgets);
+  const [totalBudget, setTotalBudget] = useState(0);
 
   const [activeTab, setActiveTab] = useState<
     "expenses" | "budget" | "analytics"
@@ -66,7 +63,11 @@ export const useExpenseTracker = (
   });
 
   const totalSpent = expenses.reduce((sum, e) => sum + e.amount, 0);
-  const totalBudget = budgets.reduce((sum, b) => sum + b.limit, 0);
+
+  const handleSetInitialBudget = (budget: number, interval: Interval) => {
+    setTotalBudget(budget);
+    setInterval(interval);
+  };
 
   const handleAddExpense = () => {
     setShowAddExpense(true);
@@ -191,5 +192,6 @@ export const useExpenseTracker = (
     handleBudgetFormChange,
     handleBudgetFormSubmit,
     handleBudgetFormCancel,
+    handleSetInitialBudget,
   };
 };
