@@ -6,7 +6,7 @@ import type { CategorySpending } from "../../types/CategorySpending";
 import type { Interval } from "../../types/Interval";
 
 export const useExpenseTracker = (
-  startingBudget: number | null,
+  startingIncome: number,
   interval: Interval
 ) => {
   const defaultCategories = [
@@ -26,11 +26,10 @@ export const useExpenseTracker = (
   );
 
   const [expenses, setExpenses] = useState<Expense[]>([]);
-  const [totalBudget, setTotalBudget] = useState(0);
 
   const [activeTab, setActiveTab] = useState<
     "expenses" | "budget" | "analytics"
-  >("expenses");
+  >("budget");
   const [showAddExpense, setShowAddExpense] = useState(false);
   const [showAddBudget, setShowAddBudget] = useState(false);
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
@@ -62,12 +61,9 @@ export const useExpenseTracker = (
     };
   });
 
-  const totalSpent = expenses.reduce((sum, e) => sum + e.amount, 0);
+  const totalBudget = ;
 
-  const handleSetInitialBudget = (budget: number, interval: Interval) => {
-    setTotalBudget(budget);
-    setInterval(interval);
-  };
+  const totalSpent = expenses.reduce((sum, e) => sum + e.amount, 0);
 
   const handleAddExpense = () => {
     setShowAddExpense(true);
@@ -176,7 +172,6 @@ export const useExpenseTracker = (
     categories,
     categorySpending,
     totalSpent,
-    totalBudget,
 
     // State setters
     setActiveTab,
@@ -192,6 +187,5 @@ export const useExpenseTracker = (
     handleBudgetFormChange,
     handleBudgetFormSubmit,
     handleBudgetFormCancel,
-    handleSetInitialBudget,
   };
 };

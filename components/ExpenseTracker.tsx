@@ -9,12 +9,12 @@ import { useExpenseTracker } from "../src/hooks/useExpenseTracker";
 import type { Interval } from "../types/Interval";
 
 interface ExpenseTrackerProps {
-  startingBudget: number | null;
+  startingIncome: number;
   interval: Interval;
 }
 
 const ExpenseTracker: React.FC<ExpenseTrackerProps> = ({
-  startingBudget,
+  startingIncome,
   interval,
 }) => {
   const {
@@ -38,15 +38,18 @@ const ExpenseTracker: React.FC<ExpenseTrackerProps> = ({
     handleBudgetFormCancel,
     categorySpending,
     totalSpent,
-    totalBudget,
     categories,
-  } = useExpenseTracker(startingBudget, interval);
+  } = useExpenseTracker(startingIncome, interval);
 
-  console.log(`Budget from landing Page : ${startingBudget}`);
+  console.log(`Budget from landing Page : ${startingIncome}`);
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-6 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto space-y-6">
-        <Header totalSpent={totalSpent} totalBudget={totalBudget} />
+      <div className="max-w-7xl mx-auto space-y-6">
+        <Header
+          totalSpent={totalSpent}
+          startingIncome={startingIncome}
+          totalBudget={startingIncome}
+        />
         <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
 
         {activeTab === "expenses" && (
@@ -92,11 +95,3 @@ const ExpenseTracker: React.FC<ExpenseTrackerProps> = ({
 };
 
 export default ExpenseTracker;
-
-/*
- Things to do and clean up: 
- -refactor landing page so user can enter the max budget. 
- (cannnot and shouldn't change)
- -refactor budget form so that the user can set the budget per category (total budget of the categories shouldn't exceed total budget input on the lading page. )
-
- */

@@ -6,19 +6,30 @@ import formatCurrency from "../../utils/formatCurrency";
 
 interface HeaderProps {
   totalSpent: number;
+  startingIncome: number;
   totalBudget: number;
 }
 
-const Header: React.FC<HeaderProps> = ({ totalSpent, totalBudget }) => {
+const Header: React.FC<HeaderProps> = ({
+  totalSpent,
+  totalBudget,
+  startingIncome,
+}) => {
   return (
     <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
       <h1 className="text-3xl font-bold text-gray-900 mb-2">Expense Tracker</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <StatCard
-          icon={<DollarSign className="h-8 w-8 text-blue-600 mr-3" />}
+          icon={<DollarSign className="h-8 w-8 text-blue-400 mr-3" />}
           label="Total Spent"
           value={formatCurrency(totalSpent)}
           color="bg-blue-50"
+        />
+        <StatCard
+          icon={<DollarSign className="h-8 w-8 text-blue-600 mr-3" />}
+          label="Starting Income"
+          value={formatCurrency(startingIncome)}
+          color="bg-yellow-50"
         />
         <StatCard
           icon={<TrendingUp className="h-8 w-8 text-green-600 mr-3" />}

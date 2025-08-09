@@ -1,6 +1,7 @@
 // src/pages/LandingPage.tsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 import type { Interval } from "../types/Interval";
 import ActionButton from "../components/shared/ActionButton";
 
@@ -17,13 +18,14 @@ const LandingPage: React.FC<LandingPageProps> = ({ onSubmit }) => {
     e.preventDefault();
     const numericBudget = parseFloat(budget);
     if (isNaN(numericBudget) || numericBudget <= 0) {
-      alert("Please enter a valid starting budget.");
+      toast("Please enter a valid starting budget.");
       return;
     }
     onSubmit(numericBudget, interval);
     navigate("/budget");
   };
 
+  console.log(`userInput is: ${budget} | interval is: ${interval}`);
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8 w-full max-w-md">
@@ -33,7 +35,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onSubmit }) => {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Starting Budget
+              Income
             </label>
             <input
               type="number"
@@ -65,6 +67,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onSubmit }) => {
           >
             Start Budgeting
           </ActionButton>
+          <Toaster />
         </form>
       </div>
     </div>
