@@ -8,8 +8,6 @@ interface BudgetPrageProps {
   interval: Interval;
 }
 
-// This page will eventually receive props or context like startingBudget & interval
-
 const BudgetPage: React.FC<BudgetPrageProps> = ({
   startingIncome,
   interval,

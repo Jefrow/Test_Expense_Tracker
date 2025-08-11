@@ -39,6 +39,7 @@ const ExpenseTracker: React.FC<ExpenseTrackerProps> = ({
     categorySpending,
     totalSpent,
     categories,
+    totalBudget,
   } = useExpenseTracker(startingIncome, interval);
 
   console.log(`Budget from landing Page : ${startingIncome}`);
@@ -48,7 +49,7 @@ const ExpenseTracker: React.FC<ExpenseTrackerProps> = ({
         <Header
           totalSpent={totalSpent}
           startingIncome={startingIncome}
-          totalBudget={startingIncome}
+          totalBudget={totalBudget}
         />
         <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
 

@@ -61,7 +61,7 @@ export const useExpenseTracker = (
     };
   });
 
-  const totalBudget = ;
+  const totalBudget = budgets.reduce((sum, b) => sum + b.limit, 0);
 
   const totalSpent = expenses.reduce((sum, e) => sum + e.amount, 0);
 
@@ -172,6 +172,7 @@ export const useExpenseTracker = (
     categories,
     categorySpending,
     totalSpent,
+    totalBudget,
 
     // State setters
     setActiveTab,
