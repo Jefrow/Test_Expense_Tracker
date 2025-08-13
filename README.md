@@ -23,7 +23,7 @@ This is a **React + Typescript** application to help users manage their expenses
 
 1. Clone the repo
    ```bash
-   git clone https://github.com/yourusername/expense-tracker.git
+   git clone https://github.com/Jefrow/Test_Expense_Tracker.git
    cd expense-tracker
    ```
 2. Install dependencies
