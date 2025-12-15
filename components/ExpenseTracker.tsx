@@ -1,22 +1,19 @@
 // src/components/ExpenseTracker.tsx
-import React from "react";
+import React, { useState } from "react";
 import Header from "./layout/Header";
 import Navigation from "./layout/Navigation";
 import ExpenseList from "./expenses/ExpenseList";
 import BudgetManager from "./budget/BudgetManager";
 import Analytics from "./analytics/Analytics";
+import { SpendingHistory } from "./analytics/SpendingHistory";
+import { SetupCard } from "./setup/SetupCard";
+import { SettingsModal } from "./settings/SettingsModal";
 import { useExpenseTracker } from "../src/hooks/useExpenseTracker";
-import type { Interval } from "../types/Interval";
+import { storageUtils } from "../utils/storage";
 
-interface ExpenseTrackerProps {
-  startingIncome: number;
-  interval: Interval;
-}
-
-const ExpenseTracker: React.FC<ExpenseTrackerProps> = ({
-  startingIncome,
-  interval,
-}) => {
+const ExpenseTracker: React.FC = () => {
+  const [isInitialized, setIsInitialized] = useState(storageUtils.isInitialized());
+  const [showSettings, setShowSettings] = useState(false);
   const {
     activeTab,
     setActiveTab,
@@ -40,18 +37,36 @@ const ExpenseTracker: React.FC<ExpenseTrackerProps> = ({
     totalSpent,
     categories,
     totalBudget,
-  } = useExpenseTracker(startingIncome, interval);
+  } = useExpenseTracker();
 
-  console.log(`Budget from landing Page : ${startingIncome}`);
+  const userData = storageUtils.loadData();
+  const spendingHistory = storageUtils.getSpendingHistory();
+
+  const handleSetupComplete = () => {
+    setIsInitialized(true);
+  };
+
+  const handleSettingsUpdate = () => {
+    // Force re-render by reloading userData
+    window.location.reload();
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-6 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto space-y-6">
-        <Header
-          totalSpent={totalSpent}
-          startingIncome={startingIncome}
-          totalBudget={totalBudget}
-        />
-        <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
+        {/* Show setup card if not initialized */}
+        {!isInitialized && <SetupCard onComplete={handleSetupComplete} />}
+
+        {/* Show tracker UI if initialized */}
+        {isInitialized && (
+          <>
+            <Header
+              totalSpent={totalSpent}
+              income={userData.income}
+              totalBudget={totalBudget}
+              onSettingsClick={() => setShowSettings(true)}
+            />
+            <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
 
         {activeTab === "expenses" && (
           <ExpenseList
@@ -84,10 +99,25 @@ const ExpenseTracker: React.FC<ExpenseTrackerProps> = ({
         )}
 
         {activeTab === "analytics" && (
-          <Analytics
-            expenses={expenses}
-            categorySpending={categorySpending}
-            totalSpent={totalSpent}
+          <div className="space-y-6">
+            <Analytics
+              expenses={expenses}
+              categorySpending={categorySpending}
+              totalSpent={totalSpent}
+            />
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+              <SpendingHistory spendingHistory={spendingHistory} />
+            </div>
+          </div>
+        )}
+          </>
+        )}
+
+        {/* Settings Modal */}
+        {showSettings && (
+          <SettingsModal
+            onClose={() => setShowSettings(false)}
+            onUpdate={handleSettingsUpdate}
           />
         )}
       </div>

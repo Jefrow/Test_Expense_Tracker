@@ -1,14 +1,11 @@
 // src/hooks/useExpenseTracker.ts
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { Expense } from "../../types/Expense";
 import type { Budget } from "../../types/Budget";
 import type { CategorySpending } from "../../types/CategorySpending";
-import type { Interval } from "../../types/Interval";
+import { storageUtils } from "../../utils/storage";
 
-export const useExpenseTracker = (
-  startingIncome: number,
-  interval: Interval
-) => {
+export const useExpenseTracker = () => {
   const defaultCategories = [
     "Food",
     "Transportation",
@@ -18,14 +15,32 @@ export const useExpenseTracker = (
     "Other",
   ];
 
+  const userData = storageUtils.loadData();
+
   const [budgets, setBudgets] = useState<Budget[]>(
-    defaultCategories.map((category) => ({
-      category,
-      limit: 0,
-    }))
+    userData.budgets.length
+      ? userData.budgets
+      : defaultCategories.map((category) => ({
+          category,
+          limit: 0,
+        }))
   );
 
-  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [expenses, setExpenses] = useState<Expense[]>(userData.expenses || []);
+
+  // Reload data when component mounts or when storage changes
+  useEffect(() => {
+    const data = storageUtils.loadData();
+    setBudgets(
+      data.budgets.length
+        ? data.budgets
+        : defaultCategories.map((category) => ({
+            category,
+            limit: 0,
+          }))
+    );
+    setExpenses(data.expenses);
+  }, []);
 
   const [activeTab, setActiveTab] = useState<
     "expenses" | "budget" | "analytics"
@@ -89,18 +104,19 @@ export const useExpenseTracker = (
     if (!expenseForm.amount || !expenseForm.description) return;
     const parsedAmount = parseFloat(expenseForm.amount);
     const newExpense: Expense = {
-      id: editingExpense ? editingExpense.id : Date.now().toString(),
+      id: editingExpense ? editingExpense.id : crypto.randomUUID(),
       amount: parsedAmount,
       description: expenseForm.description,
       category: expenseForm.category,
       date: expenseForm.date,
     };
 
-    setExpenses((prev) =>
-      editingExpense
-        ? prev.map((e) => (e.id === editingExpense.id ? newExpense : e))
-        : [newExpense, ...prev]
-    );
+    const updatedExpenses = editingExpense
+      ? expenses.map((e) => (e.id === editingExpense.id ? newExpense : e))
+      : [newExpense, ...expenses];
+
+    setExpenses(updatedExpenses);
+    storageUtils.updateData({ expenses: updatedExpenses });
 
     setExpenseForm({
       amount: "",
@@ -124,7 +140,9 @@ export const useExpenseTracker = (
   };
 
   const handleDeleteExpense = (id: string) => {
-    setExpenses((prev) => prev.filter((e) => e.id !== id));
+    const updatedExpenses = expenses.filter((e) => e.id !== id);
+    setExpenses(updatedExpenses);
+    storageUtils.updateData({ expenses: updatedExpenses });
   };
 
   const handleAddBudget = () => {
@@ -139,16 +157,18 @@ export const useExpenseTracker = (
     if (!budgetForm.category || !budgetForm.limit) return;
     const limit = parseFloat(budgetForm.limit);
 
-    setBudgets((prev) => {
-      const index = prev.findIndex((b) => b.category === budgetForm.category);
-      if (index !== -1) {
-        const updated = [...prev];
-        updated[index].limit = limit;
-        return updated;
-      } else {
-        return [...prev, { category: budgetForm.category, limit }];
-      }
-    });
+    const index = budgets.findIndex((b) => b.category === budgetForm.category);
+    let updatedBudgets: Budget[];
+
+    if (index !== -1) {
+      updatedBudgets = [...budgets];
+      updatedBudgets[index].limit = limit;
+    } else {
+      updatedBudgets = [...budgets, { category: budgetForm.category, limit }];
+    }
+
+    setBudgets(updatedBudgets);
+    storageUtils.updateData({ budgets: updatedBudgets });
 
     setBudgetForm({ category: "", limit: "" });
     setShowAddBudget(false);

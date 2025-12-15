@@ -1,7 +1,7 @@
 import React from "react";
 
-interface ActionButtonProps {
-  onClick: () => void;
+export interface ActionButtonProps {
+  onClick?: () => void;
   children: React.ReactNode;
   variant?: "primary" | "secondary" | "danger";
   size?: "sm" | "md" | "lg";
@@ -28,13 +28,14 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   const variantClasses = {
     primary: "bg-blue-600 text-white hover:bg-blue-700",
     secondary: "bg-gray-300 text-gray-700 hover:bg-gray-400",
-    danger: "text-red-600 hover:text-red-800",
+    danger: "text-red-600 hover:text-red-800 bg-transparent",
   };
 
   return (
     <button
+      type={type}
       onClick={onClick}
-      className={`${className} ${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]}`}
+      className={`${baseClasses} ${sizeClasses[size]} ${variantClasses[variant]} ${className}`}
     >
       {children}
     </button>
