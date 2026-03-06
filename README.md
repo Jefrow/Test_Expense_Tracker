@@ -31,10 +31,17 @@ A modern **React + TypeScript** application designed to help users manage their 
 
 ## Demo
 
-![Budget Page](./public/screenshots/budget.png)
-![Add Expenses Page](./public/screenshots/addExpense.png)
-![Analytics Page](./public/screenshots/analytics.png)
-![App Settings](./public/screenshots/settings.png)
+- **Set budget by category**
+  ![Budget Page](./public/screenshots/budget.png)
+
+- **Users can add expenses**
+  ![Add Expenses Page](./public/screenshots/expense.png)
+
+- **Check spending Analytics**
+  ![Analytics Page](./public/screenshots/analytics.png)
+
+- **Change the income ammount and income**
+  ![App Settings](./public/screenshots/settings.png)
 
 ## Built With
 
