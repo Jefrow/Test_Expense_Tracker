@@ -31,9 +31,10 @@ A modern **React + TypeScript** application designed to help users manage their 
 
 ## Demo
 
-<!-- Add screenshots or GIF demos here -->
-<!-- ![Landing Page](./screenshots/landing.png) -->
-<!-- ![Budget Page](./screenshots/budget.png) -->
+![Budget Page](./public/screenshots/budget.png)
+![Add Expenses Page](./public/screenshots/addExpense.png)
+![Analytics Page](./public/screenshots/analytics.png)
+![App Settings](./public/screenshots/settings.png)
 
 ## Built With
 
