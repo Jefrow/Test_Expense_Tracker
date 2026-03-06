@@ -34,7 +34,7 @@ A modern **React + TypeScript** application designed to help users manage their 
 - **Set budget by category**
   ![Budget Page](./public/screenshots/budget.png)
 
-- **Users can add expenses**
+- **Add expenses**
   ![Add Expenses Page](./public/screenshots/expense.png)
 
 - **Check spending Analytics**
