@@ -128,15 +128,44 @@ Before running this project, make sure you have the following installed:
 ```
 expense_tracker_ts/
 ├── pages/
-│   ├── LandingPage.tsx      # Initial setup for income and interval
-│   └── BudgetPage.tsx        # Main budget and expense management
+│   └── BudgetPage.tsx            # Main budget and expense management
+├── components/
+│   ├── ExpenseTracker.tsx        # Root component
+│   ├── analytics/
+│   │   ├── Analytics.tsx
+│   │   └── SpendingHistory.tsx
+│   ├── budget/
+│   │   ├── BudgetForm.tsx
+│   │   ├── BudgetManager.tsx
+│   │   └── BudgetProgressCard.tsx
+│   ├── expenses/
+│   │   ├── ExpenseForm.tsx
+│   │   ├── ExpenseItem.tsx
+│   │   └── ExpenseList.tsx
+│   ├── layout/
+│   │   ├── Header.tsx
+│   │   └── Navigation.tsx
+│   ├── settings/
+│   │   └── SettingsModal.tsx
+│   ├── setup/
+│   │   └── SetupCard.tsx
+│   └── shared/
+│       ├── ActionButton.tsx
+│       ├── FormInput.tsx
+│       ├── FormSelect.tsx
+│       ├── StatCard.tsx
+│       └── TabButton.tsx
 ├── src/
 │   ├── hooks/
 │   │   └── useExpenseTracker.ts  # Custom hook for expense logic
-│   ├── types/
-│   │   └── Interval.ts       # Type definitions
-│   ├── App.tsx               # Main app component with routing
-│   └── main.tsx              # App entry point
+│   ├── App.tsx                   # Main app component
+│   └── main.tsx                  # App entry point
+├── types/
+│   ├── Budget.ts
+│   ├── CategorySpending.ts
+│   ├── Expense.ts
+│   ├── Interval.ts
+│   └── UserData.ts
 ├── package.json
 └── README.md
 ```
