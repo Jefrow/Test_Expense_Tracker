@@ -57,17 +57,20 @@ Before running this project, make sure you have the following installed:
 ### Installation
 
 1. Clone the repository
+
    ```bash
    git clone https://github.com/Jefrow/Test_Expense_Tracker.git
    cd expense_tracker_ts
    ```
 
 2. Install dependencies
+
    ```bash
    npm install
    ```
 
 3. Start the development server
+
    ```bash
    npm run dev
    ```
@@ -84,11 +87,13 @@ Before running this project, make sure you have the following installed:
 ## Usage
 
 ### Step 1: Set Your Starting Income
+
 1. On the landing page, enter your net income (starting budget)
 2. Select your budget interval (weekly, bi-weekly, or monthly)
 3. Submit to proceed to the budget allocation page
 
 ### Step 2: Allocate Category Budgets
+
 1. Navigate to the **Budget** tab
 2. Create spending categories (e.g., Groceries, Transportation, Entertainment)
 3. Assign budget amounts to each category
@@ -96,6 +101,7 @@ Before running this project, make sure you have the following installed:
 5. View real-time remaining balance as you allocate funds
 
 ### Step 3: Track Expenses
+
 1. Go to the **Expenses** tab
 2. Add new expenses by selecting a category and entering the amount
 3. Edit or delete expenses as needed
@@ -103,6 +109,7 @@ Before running this project, make sure you have the following installed:
 5. Receive warnings if you're approaching or exceeding category limits
 
 ### Step 4: Analyze Spending
+
 1. Visit the **Analytics** tab
 2. View spending distribution across categories
 3. Identify areas where you might be overspending
@@ -129,12 +136,14 @@ expense_tracker_ts/
 ## Key Concepts
 
 ### Budget Allocation Logic
+
 - Your starting income is locked once set and serves as the maximum budget
 - Category budgets must sum to less than or equal to your starting income
 - Real-time validation prevents over-allocation
 - Starting income cannot be changed after initial setup to maintain budget integrity
 
 ### Expense Tracking
+
 - Each expense is tied to a specific category
 - Category balances update automatically as expenses are added/removed
 - Visual indicators (progress bars) show spending relative to budget
