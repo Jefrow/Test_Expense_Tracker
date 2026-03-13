@@ -6,7 +6,7 @@ import { storageUtils } from "./storage";
  * Calculate the start and end dates for the current period based on interval
  */
 export const getCurrentPeriod = (
-  interval: "weekly" | "bi-weekly" | "monthly"
+  interval: "weekly" | "bi-weekly" | "monthly",
 ): { start: Date; end: Date } => {
   const now = new Date();
   const start = new Date(now);
@@ -23,7 +23,7 @@ export const getCurrentPeriod = (
     // Find which bi-weekly period we're in
     const startOfYear = new Date(now.getFullYear(), 0, 1);
     const daysSinceStartOfYear = Math.floor(
-      (now.getTime() - startOfYear.getTime()) / (1000 * 60 * 60 * 24)
+      (now.getTime() - startOfYear.getTime()) / (1000 * 60 * 60 * 24),
     );
     const biWeeklyPeriod = Math.floor(daysSinceStartOfYear / 14);
 
@@ -58,14 +58,11 @@ const generatePeriodId = (periodStart: string): string => {
  */
 export const saveCurrentPeriod = (
   userData: UserData,
-  categorySpending: CategorySpending[]
+  categorySpending: CategorySpending[],
 ): void => {
   const { start, end } = getCurrentPeriod(userData.interval);
 
-  const totalSpent = categorySpending.reduce(
-    (sum, cat) => sum + cat.spent,
-    0
-  );
+  const totalSpent = categorySpending.reduce((sum, cat) => sum + cat.spent, 0);
 
   const period: SpendingPeriod = {
     id: generatePeriodId(start.toISOString()),
@@ -85,10 +82,7 @@ export const saveCurrentPeriod = (
 /**
  * Check if a new period has started since the last save
  */
-export const shouldSaveNewPeriod = (
-  userData: UserData,
-  lastPeriodEnd: string | null
-): boolean => {
+export const shouldSaveNewPeriod = (lastPeriodEnd: string | null): boolean => {
   if (!lastPeriodEnd) return true;
 
   const lastEnd = new Date(lastPeriodEnd);

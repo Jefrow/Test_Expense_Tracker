@@ -1,5 +1,5 @@
 // src/components/ExpenseTracker.tsx
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./layout/Header";
 import Navigation from "./layout/Navigation";
 import ExpenseList from "./expenses/ExpenseList";
@@ -10,9 +10,15 @@ import { SetupCard } from "./setup/SetupCard";
 import { SettingsModal } from "./settings/SettingsModal";
 import { useExpenseTracker } from "../src/hooks/useExpenseTracker";
 import { storageUtils } from "../utils/storage";
+import {
+  saveCurrentPeriod,
+  shouldSaveNewPeriod,
+} from "../utils/periodTracking";
 
 const ExpenseTracker: React.FC = () => {
-  const [isInitialized, setIsInitialized] = useState(storageUtils.isInitialized());
+  const [isInitialized, setIsInitialized] = useState(
+    storageUtils.isInitialized(),
+  );
   const [showSettings, setShowSettings] = useState(false);
   const {
     activeTab,
@@ -51,6 +57,17 @@ const ExpenseTracker: React.FC = () => {
     window.location.reload();
   };
 
+  useEffect(() => {
+    const data = storageUtils.loadData();
+    const history = storageUtils.getSpendingHistory();
+    const lastPeriod = history[0] ?? null;
+    const lastPeriodEnd = lastPeriod ? lastPeriod.periodEnd : null;
+
+    if (shouldSaveNewPeriod(lastPeriodEnd)) {
+      saveCurrentPeriod(data, categorySpending);
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-6 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto space-y-6">
@@ -68,48 +85,48 @@ const ExpenseTracker: React.FC = () => {
             />
             <Navigation activeTab={activeTab} onTabChange={setActiveTab} />
 
-        {activeTab === "expenses" && (
-          <ExpenseList
-            expenses={expenses}
-            onAddExpense={handleAddExpense}
-            onEditExpense={handleEditExpense}
-            onDeleteExpense={handleDeleteExpense}
-            showForm={showAddExpense}
-            formData={expenseForm}
-            onFormChange={handleExpenseFormChange}
-            onFormSubmit={handleExpenseFormSubmit}
-            onFormCancel={handleExpenseFormCancel}
-            isEditing={!!editingExpense}
-            categories={categories}
-            editingExpense={null}
-          />
-        )}
+            {activeTab === "expenses" && (
+              <ExpenseList
+                expenses={expenses}
+                onAddExpense={handleAddExpense}
+                onEditExpense={handleEditExpense}
+                onDeleteExpense={handleDeleteExpense}
+                showForm={showAddExpense}
+                formData={expenseForm}
+                onFormChange={handleExpenseFormChange}
+                onFormSubmit={handleExpenseFormSubmit}
+                onFormCancel={handleExpenseFormCancel}
+                isEditing={!!editingExpense}
+                categories={categories}
+                editingExpense={null}
+              />
+            )}
 
-        {activeTab === "budget" && (
-          <BudgetManager
-            categorySpending={categorySpending}
-            showForm={showAddBudget}
-            onAddBudget={handleAddBudget}
-            formData={budgetForm}
-            onFormChange={handleBudgetFormChange}
-            onFormSubmit={handleBudgetFormSubmit}
-            onFormCancel={handleBudgetFormCancel}
-            categories={categories}
-          />
-        )}
+            {activeTab === "budget" && (
+              <BudgetManager
+                categorySpending={categorySpending}
+                showForm={showAddBudget}
+                onAddBudget={handleAddBudget}
+                formData={budgetForm}
+                onFormChange={handleBudgetFormChange}
+                onFormSubmit={handleBudgetFormSubmit}
+                onFormCancel={handleBudgetFormCancel}
+                categories={categories}
+              />
+            )}
 
-        {activeTab === "analytics" && (
-          <div className="space-y-6">
-            <Analytics
-              expenses={expenses}
-              categorySpending={categorySpending}
-              totalSpent={totalSpent}
-            />
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <SpendingHistory spendingHistory={spendingHistory} />
-            </div>
-          </div>
-        )}
+            {activeTab === "analytics" && (
+              <div className="space-y-6">
+                <Analytics
+                  expenses={expenses}
+                  categorySpending={categorySpending}
+                  totalSpent={totalSpent}
+                />
+                <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                  <SpendingHistory spendingHistory={spendingHistory} />
+                </div>
+              </div>
+            )}
           </>
         )}
 
