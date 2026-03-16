@@ -168,7 +168,7 @@ export const useExpenseTracker = () => {
     }
     const limit = parseFloat(budgetForm.limit);
     if (isNaN(limit) || limit <= 0) {
-      toast.error("Inalid budget limit");
+      toast.error("Invalid budget limit");
       return;
     }
 

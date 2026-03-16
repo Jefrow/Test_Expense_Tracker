@@ -66,7 +66,7 @@ const ExpenseTracker: React.FC = () => {
     if (shouldSaveNewPeriod(lastPeriodEnd)) {
       saveCurrentPeriod(data, categorySpending);
     }
-  }, []);
+  }, [categorySpending]);
 
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-6 sm:px-6 lg:px-8">
