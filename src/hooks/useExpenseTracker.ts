@@ -4,6 +4,7 @@ import type { Expense } from "../../types/Expense";
 import type { Budget } from "../../types/Budget";
 import type { CategorySpending } from "../../types/CategorySpending";
 import { storageUtils } from "../../utils/storage";
+import toast from "react-hot-toast";
 
 export const useExpenseTracker = () => {
   const defaultCategories = [
@@ -23,7 +24,7 @@ export const useExpenseTracker = () => {
       : defaultCategories.map((category) => ({
           category,
           limit: 0,
-        }))
+        })),
   );
 
   const [expenses, setExpenses] = useState<Expense[]>(userData.expenses || []);
@@ -37,7 +38,7 @@ export const useExpenseTracker = () => {
         : defaultCategories.map((category) => ({
             category,
             limit: 0,
-          }))
+          })),
     );
     setExpenses(data.expenses);
   }, []);
@@ -101,8 +102,15 @@ export const useExpenseTracker = () => {
   };
 
   const handleExpenseFormSubmit = () => {
-    if (!expenseForm.amount || !expenseForm.description) return;
+    if (!expenseForm.amount || !expenseForm.description) {
+      toast.error("Please fill in all fields");
+      return;
+    }
     const parsedAmount = parseFloat(expenseForm.amount);
+    if (isNaN(parsedAmount) || parsedAmount <= 0) {
+      toast.error("Please Enter a valid amount greater than zero");
+      return;
+    }
     const newExpense: Expense = {
       id: editingExpense ? editingExpense.id : crypto.randomUUID(),
       amount: parsedAmount,
@@ -154,8 +162,15 @@ export const useExpenseTracker = () => {
   };
 
   const handleBudgetFormSubmit = () => {
-    if (!budgetForm.category || !budgetForm.limit) return;
+    if (!budgetForm.category || !budgetForm.limit) {
+      toast.error("Please select a category and enter a budget limit");
+      return;
+    }
     const limit = parseFloat(budgetForm.limit);
+    if (isNaN(limit) || limit <= 0) {
+      toast.error("Please select a catergory and enter a budget limit");
+      return;
+    }
 
     const index = budgets.findIndex((b) => b.category === budgetForm.category);
     let updatedBudgets: Budget[];
