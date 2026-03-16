@@ -45,7 +45,7 @@ const ExpenseTracker: React.FC = () => {
     totalBudget,
   } = useExpenseTracker();
 
-  const userData = storageUtils.loadData();
+  const [userData, setUserData] = useState(storageUtils.loadData);
   const spendingHistory = storageUtils.getSpendingHistory();
 
   const handleSetupComplete = () => {
@@ -53,8 +53,7 @@ const ExpenseTracker: React.FC = () => {
   };
 
   const handleSettingsUpdate = () => {
-    // Force re-render by reloading userData
-    window.location.reload();
+    setUserData(storageUtils.loadData());
   };
 
   useEffect(() => {
@@ -71,10 +70,8 @@ const ExpenseTracker: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-6 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto space-y-6">
-        {/* Show setup card if not initialized */}
         {!isInitialized && <SetupCard onComplete={handleSetupComplete} />}
 
-        {/* Show tracker UI if initialized */}
         {isInitialized && (
           <>
             <Header
@@ -130,7 +127,6 @@ const ExpenseTracker: React.FC = () => {
           </>
         )}
 
-        {/* Settings Modal */}
         {showSettings && (
           <SettingsModal
             onClose={() => setShowSettings(false)}
