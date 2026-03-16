@@ -168,7 +168,7 @@ export const useExpenseTracker = () => {
     }
     const limit = parseFloat(budgetForm.limit);
     if (isNaN(limit) || limit <= 0) {
-      toast.error("Please select a catergory and enter a budget limit");
+      toast.error("Inalid budget limit");
       return;
     }
 
