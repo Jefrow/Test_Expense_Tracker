@@ -32,7 +32,6 @@ interface ExpenseListProps {
   onFormCancel: () => void;
   isEditing: boolean;
   categories: string[];
-  editingExpense: Expense | null;
 }
 
 const ExpenseList: React.FC<ExpenseListProps> = ({

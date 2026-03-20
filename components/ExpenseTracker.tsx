@@ -95,7 +95,6 @@ const ExpenseTracker: React.FC = () => {
                 onFormCancel={handleExpenseFormCancel}
                 isEditing={!!editingExpense}
                 categories={categories}
-                editingExpense={null}
               />
             )}
 
