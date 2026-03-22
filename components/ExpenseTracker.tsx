@@ -46,7 +46,9 @@ const ExpenseTracker: React.FC = () => {
   } = useExpenseTracker();
 
   const [userData, setUserData] = useState(storageUtils.loadData);
-  const spendingHistory = storageUtils.getSpendingHistory();
+  const [spendingHistory, setSpendingHistory] = useState(() =>
+    storageUtils.getSpendingHistory(),
+  );
 
   const handleSetupComplete = () => {
     setIsInitialized(true);
@@ -64,6 +66,7 @@ const ExpenseTracker: React.FC = () => {
 
     if (shouldSaveNewPeriod(lastPeriodEnd)) {
       saveCurrentPeriod(data, categorySpending);
+      setSpendingHistory(storageUtils.getSpendingHistory());
     }
   }, [categorySpending]);
 
