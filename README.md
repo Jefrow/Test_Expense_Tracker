@@ -40,7 +40,7 @@ A modern **React + TypeScript** application designed to help users manage their 
 - **Check spending Analytics**
   ![Analytics Page](./public/screenshots/analytics.png)
 
-- **Change the income ammount and income**
+- **Change the income ammount and interval**
   ![App Settings](./public/screenshots/settings.png)
 
 ## Built With
