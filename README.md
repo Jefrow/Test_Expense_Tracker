@@ -1,6 +1,6 @@
 # Budget and Expense Tracker
 
-A modern **React + TypeScript** application designed to help users manage their expenses, set budgets per category, and track spending over time - all while ensuring they never exceed their net income.
+A modern **React + TypeScript** application designed to help users manage their expenses, set budgets per category, and track spending over time - all while ensuring they never exceed their net income.  
 [Find the project here](https://expense-tracker-wip.vercel.app/)
 
 ## Table of Contents
